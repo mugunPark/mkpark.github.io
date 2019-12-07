@@ -269,7 +269,7 @@ defaults:
       related: true
   # _java
   - scope:
-      path: ""
+      path: "_posts/java"
       type: java
     values:
       layout: single
