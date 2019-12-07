@@ -28,7 +28,7 @@ teaser                   : #"/assets/images/500x300.png" # path of fallback teas
 logo                     : #"/assets/images/android-chrome-96x96.png" # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : "MKPARK의 개발 도서관" # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
-words_per_minute         : 250
+words_per_minute         : 200
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "custom"
   disqus:
@@ -267,3 +267,19 @@ defaults:
       comments:  true
       share: true
       related: true
+  # _java
+  - scope:
+      path: ""
+      type: java
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments:  true
+      share: true
+      related: true
+
+collections:
+  java:
+    output: true
+    permalink: /:collection/:path/
