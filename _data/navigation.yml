@@ -2,9 +2,7 @@
 main:
   - title: "Quick-Start Guide"
     url: /docs/quick-start-guide/
-  - title: "About"
-    url: /about/
-  - title: "Sample Posts"
+  - title: "All Posts"
     url: /year-archive/
   - title: "Sample Collections"
     url: /collection-archive/
