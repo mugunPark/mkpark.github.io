@@ -1,0 +1,5 @@
+main:
+  - title: "Java"
+    url: /java/
+  - title: "Golang"
+    url: /golang/
