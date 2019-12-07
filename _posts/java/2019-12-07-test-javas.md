@@ -9,8 +9,7 @@ header:
     - label: "Learn more"
       url: "https://unsplash.com"
 categories:
-  - Layout
-  - Uncategorized
+  - Java
 tags:
   - edge case
   - image

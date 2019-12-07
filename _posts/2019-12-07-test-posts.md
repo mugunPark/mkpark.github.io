@@ -10,7 +10,6 @@ header:
       url: "https://unsplash.com"
 categories:
   - Layout
-  - Uncategorized
 tags:
   - edge case
   - image
