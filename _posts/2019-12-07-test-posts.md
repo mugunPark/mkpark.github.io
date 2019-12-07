@@ -4,7 +4,7 @@ classes: wide
 header:
   overlay_image: /assets/images/develop-unsplash.jpg
   caption: "Photo credit: [**Unsplash**](https://unsplash.com)"
-  overlay_filter: 0.5
+  overlay_filter: rgba(255, 255, 255, 0.3)
   actions:
     - label: "Learn more"
       url: "https://unsplash.com"
