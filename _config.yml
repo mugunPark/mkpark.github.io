@@ -267,17 +267,6 @@ defaults:
       comments:  true
       share: true
       related: true
-  # _java
-  - scope:
-      path: "_posts/java"
-      type: java
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments:  true
-      share: true
-      related: true
 
 collections:
   java:
