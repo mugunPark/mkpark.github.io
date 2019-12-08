@@ -15,11 +15,11 @@ tags:
 last_modified_at: 2019-12-08T14:14:00
 ---
 
-`String.intern()` 메소드는 **Java에서 문자열(String) 중복 문제** 를 처리하는데 사용할 수 있습니다.
+`String.intern()` 메소드는 **Java에서 문자열(String) 중복 문제**를 처리하는데 사용할 수 있습니다.
 
-`intern()`을 주의해서 사용하면 중복된 문자열(String) 객체에 의해 소비되는 많은 힙 메모리를 절약할 수 있다.
+`intern()`을 주의해서 사용하면 중복된 문자열(String) 객체에 의해 소비되는 많은 힙 메모리를 절약할 수 있습니다.
 
-문자열(String) 객체가 만약 다른 문자열과 동일한 내용을 포함하지만 다른 메모리에 위치했다면중복되었다고 한다. eg. `str1 != str2` 그러나 `str1.equals(str2)`는 같다.
+문자열(String) 객체가 만약 다른 문자열과 동일한 내용을 포함하지만 다른 메모리에 위치했다면 중복되었다고 합니다. eg. `str1 != str2` 그러나 `str1.equals(str2)`는 동일합니다.
 
 문자열(String) 객체는 보통 Java 어플리케이션에서 많은 양의 힙 메모리를 소비하므로, 중복을 줄이기위해 `intern()` 메소드를 사용하는 것이고, Java에서 제공하는 `String pool 기능`을 사용하십시오.
 
@@ -27,7 +27,7 @@ last_modified_at: 2019-12-08T14:14:00
 
 예들 들어, “`ABC`”와 같은 문자열(String) 리터럴을 만들 때 `String pool`에 자동으로 저장되지만, new 로 문자열(String) 객체가 생성될 때는 저장되지 않는다.e.g. `new String(“abc”)`, 그것은 같은 문자열(String) 이지만, 다른 메모리 위치에 새로운 객체가 생성된다. 이것이 **중복 문자열**입니다.
 
-New를 사용하여 생성된 객체에서 `intern()` 메소드를 호출하면, JVM이 `String pool`에 이 문자열을 추가하고, 누군가 `abc` 를 만들 때 마다 알려줄 수 있다. `abc` 는 새로운 객체가 만들어지는 대신 반환될 것입니다.
+New를 사용하여 생성된 객체에서 `intern()` 메소드를 호출하면, JVM이 `String pool`에 이 문자열을 추가하고, 누군가 `abc` 를 만들 때마다 알려줄 수 있다. `abc` 는 새로운 객체가 만들어지는 대신 반환될 것입니다.
 
 이 방법은 얼마나 많은 문자열(String)들이 프로그램에서 중복되는지에 따라 Java에서 많은 메모리를 절약할 수 있습니다.
 
@@ -35,7 +35,7 @@ New를 사용하여 생성된 객체에서 `intern()` 메소드를 호출하면,
 
 알아 두면 좋은 `java.lang.String` 클래스의 `intern()` 메소드에 대한 중요한 점: 
 
-1) `String.intern()` 메소드는 **JDK1.1**부터 String 클래스에 있다. 이것은 문자열(String) 객체를 반환됩니다.. `intern` 메소드가 실행될 때, `String pool`에 `equals()`가 true를 반환하는 문자열이 이미 포함되어 있다면, `String pool` 에서 문자열(String) 객체가 반환될 것이고, 그렇지 않으면 그것은 `String pool에 추가 될 것입니다.
+1) `String.intern()` 메소드는 JDK1.1부터 String 클래스에 있다. 이것은 문자열(String) 객체를 반환됩니다.. `intern` 메소드가 실행될 때, `String pool`에 `equals()`가 true를 반환하는 문자열이 이미 포함되어 있다면, `String pool` 에서 문자열(String) 객체가 반환될 것이고, 그렇지 않으면 그것은 `String pool에 추가 될 것입니다.
 
 2) `s1`과 `s1`에서 `intern()` 메소드를 호출한 후에 이고, `s1.equals(s2)`이 true인 경우 둘 다 `String pool`에서 동일한 문자열(String) 상수를 가리키므로 `s1.inern() == s1.inern()`도 true입니다.
 
