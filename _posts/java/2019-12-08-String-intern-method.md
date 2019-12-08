@@ -1,7 +1,7 @@
 ---
 title: "String의 intern() 메소드는 언제 사용해야하는가 ?"
 classes: wide
-excerpt: [원문] When to use intern() method of String in Java?
+excerpt: "[원문] When to use intern() method of String in Java?"
 header:
   overlay_image: /assets/images/develop-unsplash.jpg
   overlay_filter: rgba(255, 255, 255, 0.3)
