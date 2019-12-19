@@ -33,7 +33,11 @@ JRE는 사용자를 위한 것이고, JDK는 개발자를 위한것입니다.
 터미널 에디터(vim, nano) 또는 GUI editor(gedit, sublime)으로 간단한 Java 프로그램 작성을 시작할 수 있습니다. 복잡한 Java 어플리케이션의 경우, IntelliJ IDEA, Eclipse, Netbeans와 같은 IDE(Integrated Development Environment)가 필요할 것입니다. 일반 Java 프로그램은 올바른 언어 문법과 .java 형식을 포함해야 합니다. Java 프로그램의 구조와 유지보수의 편리함을 위해 OOP(Object Oriented Programming)와 같은 프로그래밍 개념과 적당한 아키텍처의 패턴을 사용하는 것을 추천합니다.
 
 Java의 주요 강점은 WORA(write once, run anywhere) 개념과 함께 다양한 플랫폼에서 실행되게 디자인되었습니다.
-비록 C++과 같은 언어들은 단지 특정 플랫폼과 일치하게 소스 코드를 컴파일하고, OS와 하드웨어에서 기본적으로 실행하지만, Java 소스 코드는 JDK와 함께 제공되는 Java Compiler(javac)를 사용하여 `bytecode`로 불리는 JVM이 이해할 수 있는 언어로 컴파일 됩니다. 이 `bytecode`는 [opcode-operand](https://mylearningmania.blogspot.com/2018/05/opcode-and-operand.html)라인들의 16진수 형태이고, JVM은 이런 명령들을 OS와 하드웨어 플랫폼에 의해 이해될 수 있는 기본 기계 언어의 해석할 수 있습니다. 그러므로 `bytecode`는 OS와 하드웨어 아키텍처에 상관없이 어떤 JVM에도 이식가능한 플랫폼 독립적인 중간 상태로 작동합니다. 하지만, JVM들은 OS와 하드웨어 구조와 실행 및 통신하도록 개발되었으므로, OS version(Windows, Linux, Max)과 프로세서 아키텍처(x86, x64)에 맞는 적당한 JVM 버전 선택이 필요합니다.
+비록 C++과 같은 언어들은 단지 특정 플랫폼과 일치하게 소스 코드를 컴파일하고, OS와 하드웨어에서 기본적으로 실행하지만, Java 소스 코드는 JDK와 함께 제공되는 Java Compiler(javac)를 사용하여 `bytecode`로 불리는 JVM이 이해할 수 있는 언어로 컴파일 됩니다. 
+
+이 `bytecode`는 [opcode-operand](https://mylearningmania.blogspot.com/2018/05/opcode-and-operand.html)라인들의 16진수 형태이고, JVM은 이런 명령들을 OS와 하드웨어 플랫폼에 의해 이해될 수 있는 기본 기계 언어의 해석할 수 있습니다. 
+
+그러므로 `bytecode`는 OS와 하드웨어 아키텍처에 상관없이 어떤 JVM에도 이식가능한 플랫폼 독립적인 중간 상태로 작동합니다. 하지만, JVM들은 OS와 하드웨어 구조와 실행 및 통신하도록 개발되었으므로, OS version(Windows, Linux, Max)과 프로세서 아키텍처(x86, x64)에 맞는 적당한 JVM 버전 선택이 필요합니다.
 
 우리 대부분은 위의 Java 이야기를 알고있으며 여기서 문제는 이 프로세스의 가장 중요한 구성요소 입니다. JVM은 바이트 코드를 마술처럼 해석하고 프로그램 실행 중 JIT(Just-in-Time) 컴파일 및 GC(Garbage Collection)과 같은 많은 런타임 활동을 수행 할 수 있는 블랙 박스로 우리에게 가르쳐줍니다. 이제 JVM 작동 방식을 알아보겠습니다. 
 
@@ -59,19 +63,19 @@ JVM은 RAM에 있습니다. Class Loader subsystem을 사용하여 실행하는 
 
 클래스 로더(상속으로 연결된)는 3가지 타입이 있고, 4가지 주요 원칙을 따릅니다.
 
-*1.1.1	가시성 원칙(Visibility Principle)*
+**1.1.1	가시성 원칙(Visibility Principle)**
 
 이 원칙은 자식 클래스 로더는 부모 클래스에 의해 로드된 클래스를 볼 수 있다는 것을 말합니다. 그러나 부모 클래스 로더는 자식 클래스 로더에 의해 로드된 클래스를 찾을 수 없습니다.
 
-*1.1.2	유일함 원칙(Uniqueness Principle)*
+**1.1.2	유일함 원칙(Uniqueness Principle)**
 
 이 원칙은 부모에서 로드된 클래스는 자식 클래스 로더에서 다시 로드 될 수 없고, 중복 클래스 로드가 발생하지 않는 다는 것을 보증해야 한다는 것을 말합니다.
 
-*1.1.3	위임 계층 원칙(Delegation Hierarchy Principle)*
+**1.1.3	위임 계층 원칙(Delegation Hierarchy Principle)**
 
 위의 두 원칙을 충족시키기 위해, JVM은 위임 계층 구조에 따라 각 클래스 로딩 요청에 대한 클래스 로더를 선택합니다. 여기서 가장 하위 레벨의 `Application Class Loader`로부터 시작하고, `Application Class Loader`는 클래스 로딩을 요청을 `Extension Class Loader`에 위임하고, 그 다음 `Extension Class Loader`는 요청을 `Bootstrap Class Loader`에게 위임합니다. 요청 받은 클래스를 `Bootstrap` 경로에서 찾는다면 클래스를 로드합니다. 그렇지 않으면 요청은 Extension 경로 또는 사용자 지정 경로에서 클래스를 찾기 위해 `Extension Class Loader` 로 다시 전달합니다. 여기서도 찾지 못한다면, 요청은 `System` 클래스 경로에서 찾기 위해 `Application Loader`로 돌아오고, `Application Class Loader`에서도 요청받은 클래스를 로드하는것에 실패하게되면, 런타임오류(`java.lang.ClassNotFoundException `)를 보게됩니다.
 
-*1.1.4	No Unloading 원칙(No Unloading Principle)*
+**1.1.4	No Unloading 원칙(No Unloading Principle)**
 
 클래스 로더는 클래스를 로드할 수 는 있지만, 로드한 클래스를 언로드(unload) 할 수 없습니다. 언로드를 대신해서 현재 클래스 로더는 제거 될 수 있고, 새로운 클래스 로더가 생성될 수 있습니다.
 
@@ -84,7 +88,7 @@ JVM은 RAM에 있습니다. Class Loader subsystem을 사용하여 실행하는 
 *	`System/Application Class Loader`는 시스템 클래스 경로로부터 어플리케이션 별 클래스를 로드합니다. 그것은 프로그램을 실행할 때 `-cp` 또는 `-classpath` 커맨드라인 옵션을 사용하여 설정할 수 있습니다. 그것은 내부적으로 `java.class.path`에 매핑되는 `Envioronment Value`를 사용합니다. 이 클래스 로더는 `  sun.misc.Launcher$AppClassLoader` 클래스로 Java에서 구현되었습니다
 
 
-참고: 위에서 설명한 3가지 주요 클래스 로더 외에  프로그래머는 직접 사용자 정의 클래스 로더를 생성할 수 있습니다. 이는 클래스 로더 위임 모델을 통해 어플리케이션의 독립을 보장합니다. 이러한 접근법은 웹 앱을 만드는 Tomcat 과 같은 웹 어플리케이션 서버와 독립적으로 실행하는 엔터프라이즈 솔루션에 사용됩니다.
+**참고:** 위에서 설명한 3가지 주요 클래스 로더 외에  프로그래머는 직접 사용자 정의 클래스 로더를 생성할 수 있습니다. 이는 클래스 로더 위임 모델을 통해 어플리케이션의 독립을 보장합니다. 이러한 접근법은 웹 앱을 만드는 Tomcat 과 같은 웹 어플리케이션 서버와 독립적으로 실행하는 엔터프라이즈 솔루션에 사용됩니다.
 
 각 클래스 로더는 로드된 클래스를 저장하는 로더만의 `namespace` 를 가집니다. 클래스 로더가 클래스를 로드할 때, 클래스가 이미 로드되었는지 여부를 확인하기위해 namespace에 저장된 FQCN(Fully Qualified Class Name)을 기반으로 클래스를 검색합니다. 클래스가 동일한 FQCN을 가지지만 namespace 다른 경우에도 그것은 다른 클래스로 간주됩니다. Namespace가 다르다는 것은 클래스가 또다른 클래스 로더에 의해 로드되었다는 것을 의미합니다.
 
@@ -118,6 +122,7 @@ Linking은 아래의 3가지 단계로 이루어집니다.
 *	해결(Resolution): symbolic 참조를 타입의 직접 참조로 변경합니다. 참조된 엔티티가 위치하고있는 메소드 영역에서 검색합니다.
 
 ### 1.3) Initialization
+
 	여기서 각 로드된 클래스 또는 인터페이스의 초기화 로직이 실행될 것입니다(e.g. 클래스의 생성자 호출). 이후 JVM은 멀티 스레드이고, 클래스 또는 인터페이스의 초기화는 적절한 동기화로 다른 스레드에서 같은 클래스 또는 인터페이스 초기화하는 것을 피할 수 있게 신중하게 이루어져야 합니다(즉, Thread safe 해야함). 
 모든 정적 변수는 코드에 정의된 원래 값으로 할당되고, 정적 블록이 실행될 경우 클래스 로딩의 마지막 단계입니다. 이는 클래스에서 위에서 아래로 한 줄 한 줄 실행되고, 클래스 계층에서 부모 클래스에서 자식 클래스로 실행됩니다.
 
@@ -212,23 +217,23 @@ Native 스레드는 Java 스레드가 종료된 후에 종료됩니다. 그러�
 
 컴파일 최적화를 위한 공급 업체 접근 방식
 
--	*Oracle Hotspot VMs*
+-	**Oracle Hotspot VMs**
 
 Oracle은 JIT 컴파일러 모델인 Hotspot 컴파일러로 표준 Java VM을 2가지로 구현합니다. 프로파일링을 통해 JIT에게 가장만은 컴파일을 요구하는 hotspot을 확인한 다음 코드에서 성능에 중요한 부분을 네이티브 코드로 컴파일 할 수 있습니다. 시간이 지남에 따라 이러한 컴파일된 메소드가 더 이상 빈번하게 불리지 않는다면, 더 이상 hotspot이 아닌 메소드를 식별하고, 캐시에서 native 코드를 빠르게 제거한 다음 인터프리터 모드로  실행을 시작합니다. 이 방법론은 성능을 향상시키고, 거의 사용되지 않는 코드의 불필요한 컴파일을 피하도록 합니다. 추가적으로,  Hotspot 컴파일러는 라이닝과 같은 기술을 컴파일된 코드를 최적화하는 방법을 결정합니다. 컴파일러에 의한 런타임 분석은 최적화에 가장 큰 성능 향상을 가져오는 결정을 할 때 추측을 제거할 수 있습니다.
 
 JVM들은 동일한 런타임(인터프리터, 메모리, 스레드)을 사용하지만 아래의 언급처럼 JIT 컴파일러의 맞춤형 구현을 사용합니다.
 
-*	Oracle Java Hotspot Client VM은 Oracle JDK와 JRE을 위한 기본 JVM 기술입니다. 이것은 어플리케이션의 시작 시간과 메모리 공간을 줄임으로써 클라이언트 환경에서 어플리케이션이 실행될 때 최적의 성능을 위해 조정되었습니다.
+*	**Oracle Java Hotspot Client VM**은 Oracle JDK와 JRE을 위한 기본 JVM 기술입니다. 이것은 어플리케이션의 시작 시간과 메모리 공간을 줄임으로써 클라이언트 환경에서 어플리케이션이 실행될 때 최적의 성능을 위해 조정되었습니다.
 
-*	Oracle Java Hotspot Serve VM은 서버 환경에서 실행하는 어플리케이션을 위해 최대 프로그램 실행 속도를 위해 디자인되었습니다. 여기서 사용되는 JIT 컴파일러는 Advanced Dynamic Optimizing Compiler로 불리며 더 복잡하고 다양한 성능 최적화 기술을 사용합니다. Java HotSpot Server VM은 서버 커맨드라인 옵션을 사용하는 것으로 호출됩니다.
+*	**Oracle Java Hotspot Serve VM**은 서버 환경에서 실행하는 어플리케이션을 위해 최대 프로그램 실행 속도를 위해 디자인되었습니다. 여기서 사용되는 JIT 컴파일러는 Advanced Dynamic Optimizing Compiler로 불리며 더 복잡하고 다양한 성능 최적화 기술을 사용합니다. Java HotSpot Server VM은 서버 커맨드라인 옵션을 사용하는 것으로 호출됩니다.
 
 Oracle의 Java Hotspot 기술은 빠른 메모리 할당, 빠르고 효율적인 GC, 그리고 크게 공유되는 메모리 멀티 프로세서 서버에서 쉽게 확장 가능한 스레드 핸들링 효율로 유명합니다.
 
--	*IBM AOT (Ahead-Of-Time) 컴파일*
+-	**IBM AOT (Ahead-Of-Time) 컴파일**
 
 이 JVM들은 공유되는 캐시를 통해 컴파일된 native 코드를 공유하는 것이 특징입니다. 그러므로 AOT 컴파일러로 이미 컴파일된 코드는 컴파일없이 다른 JVM에서 사용될 수 있습니다. 추가로 IBM JVM은 AOT 컴파일러를 사용해서 코드를 JXE(Java Executable) 파일 포맷으로 코드를 사전 컴파일하는 빠른 실행 방법을 제공합니다.
 
-3.3) 가비지 컬렉터(GC)
+### 3.3) 가비지 컬렉터(GC)
 
 객체가 참조되고 있는 한, JVM은 객체가 살아있다고 간주합니다. 객체가 더 이상 참조되지 않아서 어플리케이션 코드에서 도달할 수 없어지면 가비지 컬렉터는 객체를 제거하고 사용되지 않는 메모리를 회수합니다. 일반 적으로 가비지 컬렉터는 내부에서 동작합니다. 하지만 `System.gc()` 메소드를 호출하는 것으로 그것을 트리거 할 수 있습니다(다시 실행하는 것은 보장되지 않습니다. 따라서 `Thread.sleep(1000)을 호출하고 GC가 완료될 때까지 기다리십시오) .
 
@@ -248,17 +253,17 @@ Java 프로그램이 어떻게 실행되는지에 대해서 알아보았지만 T
 
 주요 시스템 스레드는 다음과 같습니다
 
-*	컴파일러 스레드: 런타임에 바이트코드에서 native 코드로의 컴파일합니다.
+*	**컴파일러 스레드:** 런타임에 바이트코드에서 native 코드로의 컴파일합니다.
 
-*	GC 스레드: 모든 GC과 관련된 활동을 합니다.
+*	**GC 스레드:** 모든 GC과 관련된 활동을 합니다.
 
-*	주기적인 작업 스레드: 주기적인 작업의 실행을 스케쥴하기위한 타이머 이벤트(i.e. 인터럽트)는 여기서 수행합니다.
+*	**주기적인 작업 스레드:** 주기적인 작업의 실행을 스케쥴하기위한 타이머 이벤트(i.e. 인터럽트)는 여기서 수행합니다.
 
-*	Signal dispatcher 스레드: JVM 프로세스에서 보내는 signal를 받고 적절한 JVM 메소드를 호출하는 것으로 JVM안에서 제어합니다.
+*	**Signal dispatcher 스레드:** JVM 프로세스에서 보내는 signal를 받고 적절한 JVM 메소드를 호출하는 것으로 JVM안에서 제어합니다.
 
-*	VM 스레드: 전제 조건으로 일부 연산은 Heap 영역 수정이 더 이상 일어나지 않는 안전한 위치에 도달하기위해 JVM 이 필요합니다. 이러한 시나리오를 예는 “stop-the-world” 가비지 컬렉션, 스레드 스택 덤프, 스레드 유예, 그리고 편향된 Lock 해지가 있습니다.
+*	**VM 스레드:** 전제 조건으로 일부 연산은 Heap 영역 수정이 더 이상 일어나지 않는 안전한 위치에 도달하기위해 JVM 이 필요합니다. 이러한 시나리오를 예는 “stop-the-world” 가비지 컬렉션, 스레드 스택 덤프, 스레드 유예, 그리고 편향된 Lock 해지가 있습니다.
 
-이해를 위한 일부 포인트
+### 이해를 위한 일부 포인트
 
 *	Java는 해석 및 컴파일 된 언어 입니다.
 
