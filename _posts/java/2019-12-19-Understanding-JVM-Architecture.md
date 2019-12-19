@@ -18,15 +18,18 @@ JVM 아키텍처의 이해와 Java가 내부에서 실제로 어떻게 동작하
 이 포스트에서는 Java 생태계와 관련된 JVM 내부 및 기술의 기초를 제공할 것입니다.
 
 # 배경 지식
+
 Sun Microsystems의 James Gosling에 의해 1955년에 디자인된 자바는 수백만의 개발자에게 사랑받는 multi-paradigm 프로그래밍 언어입니다. Java는 15년간 가장 인기있는 언어이다.지난 15년 동안 개발된 수만의 엔터프라이즈 어플리케이션은 대부분 Java로 작성되었고, 엔터프라이즈 급 제품의 소프트웨어 시스템 구축할 때 선택하는 언어가 되었습니다.
 
 # Java 환경
+
 거의 모든 프로그래밍 언어의 경우, 모든 필요한 컴포넌트 구성, 어플리케이션 프로그래밍 인터페이스, 그리고 개발을 위한 라이브러리, 컴파일, 디버깅, 프로그램 실행과 같은 특별한 환경이 필요합니다. Java는 2가지 환경이 있고 Java를 사용하는 모든 사람은 이러한 환경 중 하나를  로컬 개발 또는 도구 환경 플랫폼으로 설정한 이후에 작업을 시작합니다.
 -	JRE (Java Runtime Environment): Java 어플리케이션 실행에 필요한 최소 환경(개발에 대한 지원은 없음). JVM (Java Virtual Machine)과 배포 툴을 포함합니다.
 -	JDK (Java Development Kit): Java 어플리케이션 개발과 실행에 사용되는 완전한 개발 환경. JRE와 개발 툴 둘 다 포함합니다.
 JRE는 사용자를 위한 것이고, JDK는 개발자를 위한것입니다.
 
 # 어떻게 Java는 동작하는가?
+
 터미널 에디터(vim, nano) 또는 GUI editor(gedit, sublime)으로 간단한 Java 프로그램 작성을 시작할 수 있습니다. 복잡한 Java 어플리케이션의 경우, IntelliJ IDEA, Eclipse, Netbeans와 같은 IDE(Integrated Development Environment)가 필요할 것입니다. 일반 Java 프로그램은 올바른 언어 문법과 .java 형식을 포함해야 합니다. Java 프로그램의 구조와 유지보수의 편리함을 위해 OOP(Object Oriented Programming)와 같은 프로그래밍 개념과 적당한 아키텍처의 패턴을 사용하는 것을 추천합니다.
 
 Java의 주요 강점은 WORA(write once, run anywhere) 개념과 함께 다양한 플랫폼에서 실행되게 디자인되었습니다.
@@ -35,37 +38,44 @@ Java의 주요 강점은 WORA(write once, run anywhere) 개념과 함께 다양�
 우리 대부분은 위의 Java 이야기를 알고있으며 여기서 문제는 이 프로세스의 가장 중요한 구성요소 입니다. JVM은 바이트 코드를 마술처럼 해석하고 프로그램 실행 중 JIT(Just-in-Time) 컴파일 및 GC(Garbage Collection)과 같은 많은 런타임 활동을 수행 할 수 있는 블랙 박스로 우리에게 가르쳐줍니다. 이제 JVM 작동 방식을 알아보겠습니다. 
 
 # JVM 아키텍처
+
 JVM은 사양일 뿐이며 구현은 밴더 마다 다릅니다. 지금은 사양에 정의된 것처럼 JVM의 일반적으로 받아들여지는 아키텍처를 이해해봅시다.
-![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/JVM architecture.png){: .align-center}
+
+![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/JVM Architecture.png){: .align-center}
+
 
 ## 1) Class Loader Subsystem
+
 JVM은 RAM에 있습니다. Class Loader subsystem을 사용하여 실행하는 동안 class 파일들은 RAM에서 가져옵니다. 이는 Java의 `dynamic class loading` 기능이라고 합니다.
 그것은 런타임(컴파일 타임은 아님) 에 class를 최초로 참조할 때 class 파일(.class)을 로드, 링크, 초기화 합니다.
 
-1.1) Loading
+### 1.1) Loading
+
 컴파일 된 class 파일들을 로딩하는 것은 `Class Loader`의 주요 작업입니다. 일반적으로 클래스 로딩 프로세스는 main 클래스(`static main()` 메소드가 선언된 클래스)로부터 시작됩니다. 모든 이후 클래스 로딩 시도는 아래의 경우에 말하는 것처럼 이미 실행 중인 클래스들에서 클래스 참조 따라 이루어집니다.
-*	바이트 코드가 class에 대한 정적 참조를 만들 때(e.g. `System.out)
+
+*	바이트 코드가 class에 대한 정적 참조를 만들 때(e.g. `System.out`)
+
 *	바이트 코드가 클래스 객체를 생성할 때(e.g. `Person person = new Person(“John”)`)
 
 클래스 로더(상속으로 연결된)는 3가지 타입이 있고, 4가지 주요 원칙을 따릅니다.
 
-1.1.1	가시성 원칙(Visibility Principle)
+*1.1.1	가시성 원칙(Visibility Principle)*
 
 이 원칙은 자식 클래스 로더는 부모 클래스에 의해 로드된 클래스를 볼 수 있다는 것을 말합니다. 그러나 부모 클래스 로더는 자식 클래스 로더에 의해 로드된 클래스를 찾을 수 없습니다.
 
-1.1.2	유일함 원칙(Uniqueness Principle)
+*1.1.2	유일함 원칙(Uniqueness Principle)*
 
 이 원칙은 부모에서 로드된 클래스는 자식 클래스 로더에서 다시 로드 될 수 없고, 중복 클래스 로드가 발생하지 않는 다는 것을 보증해야 한다는 것을 말합니다.
 
-1.1.3	위임 계층 원칙(Delegation Hierarchy Principle)
+*1.1.3	위임 계층 원칙(Delegation Hierarchy Principle)*
 
 위의 두 원칙을 충족시키기 위해, JVM은 위임 계층 구조에 따라 각 클래스 로딩 요청에 대한 클래스 로더를 선택합니다. 여기서 가장 하위 레벨의 `Application Class Loader`로부터 시작하고, `Application Class Loader`는 클래스 로딩을 요청을 `Extension Class Loader`에 위임하고, 그 다음 `Extension Class Loader`는 요청을 `Bootstrap Class Loader`에게 위임합니다. 요청 받은 클래스를 `Bootstrap` 경로에서 찾는다면 클래스를 로드합니다. 그렇지 않으면 요청은 Extension 경로 또는 사용자 지정 경로에서 클래스를 찾기 위해 `Extension Class Loader` 로 다시 전달합니다. 여기서도 찾지 못한다면, 요청은 `System` 클래스 경로에서 찾기 위해 `Application Loader`로 돌아오고, `Application Class Loader`에서도 요청받은 클래스를 로드하는것에 실패하게되면, 런타임오류(`java.lang.ClassNotFoundException `)를 보게됩니다.
 
-1.1.4	No Unloading 원칙(No Unloading Principle)
+*1.1.4	No Unloading 원칙(No Unloading Principle)*
 
 클래스 로더는 클래스를 로드할 수 는 있지만, 로드한 클래스를 언로드(unload) 할 수 없습니다. 언로드를 대신해서 현재 클래스 로더는 제거 될 수 있고, 새로운 클래스 로더가 생성될 수 있습니다.
 
-![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/class loader view.png
+![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/class loader view.png){: .align-center}
 
 *	`Bootstrap Class Loader`는 bootstrap 경로($JAVA_HOME/jre/lib directory e.g. java.lang.* package classes.)의 핵심 Java API 클래스를 제공하는 `rt.jar`로부터 표준 JDK 클래스들을 로드 합니다. 이는 C/C++과 같은 native 언어로 구현되어있고 Java에서 모든 클래스 로더의 부모 역할을 합니다.
 
@@ -78,7 +88,8 @@ JVM은 RAM에 있습니다. Class Loader subsystem을 사용하여 실행하는 
 
 각 클래스 로더는 로드된 클래스를 저장하는 로더만의 `namespace` 를 가집니다. 클래스 로더가 클래스를 로드할 때, 클래스가 이미 로드되었는지 여부를 확인하기위해 namespace에 저장된 FQCN(Fully Qualified Class Name)을 기반으로 클래스를 검색합니다. 클래스가 동일한 FQCN을 가지지만 namespace 다른 경우에도 그것은 다른 클래스로 간주됩니다. Namespace가 다르다는 것은 클래스가 또다른 클래스 로더에 의해 로드되었다는 것을 의미합니다.
 
-1.2) Linking
+### 1.2) Linking
+
 Linking은 로드된 클래스 또는 인터페이스의, 직접적인 superclass들과 superinterfaces들 그리고 필요에 따라 요소 유형을 검증하고 준비하는 과정에서 아래 속성을 따릅니다.
 
 *	클래스 또는 인터페이스는 링크되기 전에 반드시 완전히 로드되어야 합니다.
@@ -89,9 +100,7 @@ Linking은 로드된 클래스 또는 인터페이스의, 직접적인 superclas
 
 Linking은 아래의 3가지 단계로 이루어집니다.
 
-*	검증(Verification): .class 파일의 정확성을 보장합니다.
-(코드가 Java Language Specification에 따라 작성했는지
-, JVM Specification에 따라 유효한 컴파일러에 의해 만들어진 것인지)
+*	검증(Verification): .class 파일의 정확성을 보장합니다. (코드가 Java Language Specification에 따라 작성했는지, JVM Specification에 따라 유효한 컴파일러에 의해 만들어진 것인지)
 이것은 클래스 로드 절차에서 가장 복잡한 테스트 절차이고 가장 오랜 시간이 걸립니다. Linking이 클래스 로딩 절차를 느려지게 할지라도 그것은 바이트 코드를 실행할 때 이러한 검사를 실행하는 필요가 없습니다. 이러한 이유로 전체 실행이 효율적이고 효과적입니다. 만약 검증에 실패하면 런타임 오류(`java.lang.VerifyError)가 발생합니다. 예를 들어 다음과 같은 확인이 수행됩니다.
 
 ```
@@ -108,7 +117,7 @@ Linking은 아래의 3가지 단계로 이루어집니다.
 
 *	해결(Resolution): symbolic 참조를 타입의 직접 참조로 변경합니다. 참조된 엔티티가 위치하고있는 메소드 영역에서 검색합니다.
 
-1.3) Initialization
+### 1.3) Initialization
 	여기서 각 로드된 클래스 또는 인터페이스의 초기화 로직이 실행될 것입니다(e.g. 클래스의 생성자 호출). 이후 JVM은 멀티 스레드이고, 클래스 또는 인터페이스의 초기화는 적절한 동기화로 다른 스레드에서 같은 클래스 또는 인터페이스 초기화하는 것을 피할 수 있게 신중하게 이루어져야 합니다(즉, Thread safe 해야함). 
 모든 정적 변수는 코드에 정의된 원래 값으로 할당되고, 정적 블록이 실행될 경우 클래스 로딩의 마지막 단계입니다. 이는 클래스에서 위에서 아래로 한 줄 한 줄 실행되고, 클래스 계층에서 부모 클래스에서 자식 클래스로 실행됩니다.
 
@@ -124,7 +133,7 @@ Linking은 아래의 3가지 단계로 이루어집니다.
 
 이때, 로드된 모든 `.class`의 경우, `java.lang` 패키지에 정의된 것과 같이 힙 메모리에 파일을 나타내는 클래스의 정확한 하나의 객체로 생성합니다. 이 클래스 객체는 클래스 정보(클래스 이름, 부모 이름, 메소드, 변수 정보, 정적 변수 정보 등등.)를 이후 코드에서 읽는데 사용될 수 있습니다.
 
-2.1) 메소드 영역(스레드 간에 공유되는)
+### 2.1) 메소드 영역(스레드 간에 공유되는)
 
 메소드 영역은 공유되는 자원(JVM당 오직 하나의 메소드 영역) 입니다. 모든 JVM 스레드들은 동일한 메소드 영역을 공유 하고, 그렇기 때문에 메소드 데이터에 접근과 동적 링킹 프로세스는 thread safe 해야만 합니다.
 
@@ -140,18 +149,18 @@ Linking은 아래의 3가지 단계로 이루어집니다.
 
 *	메소드 코드 – 메소드 별: 바이트 코드, 피연산자 스택 사이즈, 로컬 변수 사이즈, 로컬 변수 테이블, 예외 테이블; 예외 테이블에서 오류 핸들러 별: 시작/끝 위치, 핸들러 코드의 오프셋,  잡힌 예외 클래스의 상수 풀 인덱스
 
-2.2) 힙 영역(스레드 간 공유되는)
+### 2.2) 힙 영역(스레드 간 공유되는)
 
 힙 영역 역시 공유되는 자원(JVM당 오직 하나의 메소드 영역) 입니다. 모든 객체, 인스턴스 변수, 배열의 정보는 힙 영역에 저장됩니다. 이후 메소드와 힙 영역은 메모리를 멀티 스레드에서 공유하고, 메소드와 힙 영역에 저장된 데이터는 thread safe 하지 않습니다. 힙 영역은 GC 대상 입니다.
 
-2.3) 스택 영역(스레드 별)
+### 2.3) 스택 영역(스레드 별)
 
 스택 영역은 공유되는 자원이 아닙니다. 모든 JVM 스레드의 경우 스레드가 시작할 때 메소드 호출을 저장하기위해 생성된 구분되는 런타임 스택을 가집니다. 이러한 모든 메소드 호출의 경우, 엔트리는 런타임 스택 최상위에 생성 또는 추가 될 것이고, 이러한 엔트리는 스택 프레임(Stack Frame) 이라고 합니다.
 각 스택 프레임은 실행되는 메소드가 속하는 클래스의 로컬 변수 배열, 피연산자 스택 그리고 런타임 상수 풀에 대한 참조 가집니다.
 
 프레임은 메소드가 리턴하거나 잡히지 않은 예외(uncaught exception)이 메소드 실행 동안 throw되면 제거됩니다. 또한 예외가 발생하면 stack trace(printStackTrace() 메소드로 볼 수 있음)의 각 라인은 하나의 스택 프레임에 표현됩니다. 스택 영역은 공유되는 자원이 아니므로 thread safe 합니다.
 
-![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/Stack Area.png
+![image-center]({{ site.url }}{{ site.baseurl }}/assets/images/Stack Area.png){: .align-center}
 
 스택 프레임은 안에서 3개의 서브 엔트리로 나뉩니다.
 
@@ -165,11 +174,11 @@ Linking은 아래의 3가지 단계로 이루어집니다.
 
 스택은 동적또는 정해진 사이즈 일수 있습니다. 스레드가 허용된 것보다 더 큰 스택을 요구한다면 `StackOverflowError`이 발생합니다. 스레드가 새로운 프레임을 요구하고 할당하기 위한 충분한 메모리가 없으면 `OutOfMemoryError`이 발생합니다.
 
-2.4) PC Registers (스레드 별)
+### 2.4) PC Registers (스레드 별)
 
 JVM 스레드의 경우, 스레드가 시작할 때 별도의 PC(Program Counter)  Registers는 현재 실행중인 명령의 주소(메소드 영역에서의 메모리 주소)를 보관하기위해 생성됩니다. 현재 메소드가 Native 메소드 이면 PC는 정의되지 않습니다. 실행이 완료되면, PC register는 다음 명령의 주소로 업데이트 됩니다.
 
-2.5) Native Method Stack (스레드 별)
+### 2.5) Native Method Stack (스레드 별)
 
 Java 스레드와 기본 운영 체제 스레드 간의 직접적인 매핑이 있습니다. 이후 Java 스레드를 위한 모든 상태가 준비되면, 별도의 native stack 또한 JNI(Java Native Interface)를 통해 호출된 native 메소드 정보(보통C/C++로 작성됨)를 저장하기 위해 생성됩니다.
 
@@ -181,11 +190,11 @@ Native 스레드는 Java 스레드가 종료된 후에 종료됩니다. 그러�
 
 실제 바이트코드의 실행은 여기서 발생합니다. 실행 엔진은 런타임 데이터 영역에 할당된 데이터를 읽는 것으로 바이트코드에서 명령들을 한 줄 한 줄 실행합니다. 
 
-3.1) 인터프리터(Interpreter)
+### 3.1) 인터프리터(Interpreter)
 
 인터프리터는 바이트코드를 해석하고 명령을 한 줄 한 줄 실행 합니다. 이런 이유로 빠르게 바이트코드 한줄을 해석할 수 있습니다. 그러나 해석된 결과를 실행하는 것은 느린 작업입니다. 단점은 하나의 메소드가 여러 번 호출된 때 매번 새로운 명령과 느린 실행을 필요하다는 것입니다.
 
-3.2) Just-In-Time(JIT) 컴파일러
+### 3.2) Just-In-Time(JIT) 컴파일러
 
 오직 인터프리터만 사용할 수 있다면, 하나의 메소드가 여러 번 호출 될 때 , 해석 또한 매번 발생할 것이고, 그것은 호출적으로 처리하면 불필요한 작업입니다.이는 JIT 컴파일러로 가능하게 되었습니다. 첫번째로, 전체 바이트코드를 native 코드(기계어)로 컴파일 합니다. 그런 다음 반복되는 함수 호출의 경우 native 코드를 직접적으로 제공하고 native 코드를 사용하는 실행은 하나하나 해석하는 명령보다 훨씬 빠릅니다. Native 코드는 캐시에 저장되고 그렇기 때문에 컴파일 된 코드가 빠르게 실행될 수 있습니다.
 
