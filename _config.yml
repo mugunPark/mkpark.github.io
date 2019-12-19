@@ -18,7 +18,7 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 locale                   : "en-US"
 title                    : "MKPARK의 개발 도서관"
 title_separator          : "-"
-subtitle                 : "첫번째 이야기" # site tagline that appears below site title in masthead
+subtitle                 : "첫번째 이야기 - 내 맘대로 영어 해석" # site tagline that appears below site title in masthead
 name                     : "Mu Goon Park"
 description              : "시작합니다."
 url                      : "https://mugunpark.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
