@@ -47,7 +47,7 @@ GitHub Flavored Markdown [fenced code blocks](https://help.github.com/articles/c
 </nav><!-- /.pagination -->{% endraw %}
 ```
 
-{% highlight java %}
+```java
 class Person {
     int pid;
     String name;
@@ -61,7 +61,7 @@ public class Driver {
         p = new Person(id, pName);
     }
 }
-{% endhighlight %}
+```
 
 ```ruby
 module Jekyll

@@ -113,7 +113,7 @@ Java Stack 메모리는 스레드의 실행에 사용되고, 메소드의 값들
 
 간단한 프로그램으로 Stack과 Heap 이 어떻게 동작하는지 보겠습니다. 
 
-```Java
+```java
 class Person {
     int pid;
     String name;
