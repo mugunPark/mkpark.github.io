@@ -64,14 +64,14 @@ Go 모듈로 의존성을 처리하는 간단한 Go 패키지를 만들 것입�
 
 `go-modules-test`라는 프로그램을 실행할 수 있는 새 프로젝트를 만들어 보겠습니다.
 
-```cmd
+```
 > mkdir go-modules-test
 > cd go-modules-test
 ```
 
 다음으로 `go-modules-test`에서 프로젝트가 모듈을 사용하기위해서 초기화를 할 것입니다. `go mod init <모듈명>` 커맨드를 사용하면 됩니다.
 
-```cmd
+```
 > go mod init <모듈명>
 ```
 
@@ -92,7 +92,7 @@ func main() {
 
 `main.go` 파일을 실행합니다.
 
-```cmd
+```
 > go run main.go
 
 > Hello World  // Output
@@ -122,7 +122,7 @@ func main() {
 
 프로그램 위에 import 목록에 패키지를 추가했으므로 다시 `main.go` 파일을 실행 해보겠습니다.
 
-```cmd
+```
 > go run main.go
 
 go: finding github.com/elliotforbes/test-package v2.0.0
@@ -151,7 +151,7 @@ require github.com/elliotforbes/test-package v2.0.0
 
 `v2.0.0` 에서 `v1.0.0`으로 버전을 수정한 후에 다시 `main.go`파일을 실행하면 다음과 같이 나타납니다.
 
-```cmd
+```
 > go run main.go
 
 go: finding github.com/elliotforbes/test-package v1.0.0
