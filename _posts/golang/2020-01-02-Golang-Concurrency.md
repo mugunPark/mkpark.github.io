@@ -11,8 +11,8 @@ header:
 categories:
   - Golang
 tags:
-  - microservice
-  - gRPC
+  - goroutine
+  - concurrency
 last_modified_at: 2020-01-02T17:00:00
 ---
 
