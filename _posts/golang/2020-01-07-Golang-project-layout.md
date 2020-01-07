@@ -30,7 +30,7 @@ Go 응용 프로그램 프로젝트의 기본 레이아웃입니다. 핵심 Go d
 
 `/internal`, `\pkg`등으로부터 코드를 가져와서 호출하는 main 함수를 가지는 것이 일반적입니다.
 
-예: https://github.com/golang-standards/project-layout/blob/master/cmd/README.md
+[/cmd](https://github.com/golang-standards/project-layout/blob/master/cmd/README.md) 디렉토리를 참조하십시오.
 
 ## `/internal`
 
