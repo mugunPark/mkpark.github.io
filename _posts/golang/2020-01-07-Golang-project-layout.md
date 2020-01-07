@@ -118,7 +118,7 @@ Packaging and Continuous Integration.
 
 CI (travis, circle, drone) 구성 및 스크립트를 /build/ci 디렉토리에 넣습니다. 일부 CI 도구 (예 : Travis CI)는 구성 파일의 위치에 매우 까다 롭습니다. 구성 파일을 /build\ci 디렉토리에 넣어 CI 도구가 예상하는 위치에 연결하십시오 (가능한 경우).
 
-## `deployments`
+## `/deployments`
 
 IaaS, Paas, 시스템 및 컨테이너 오케스트레이션 배포 구성 및 템플릿(docker-compose, kubernetes / helm, mesos, terraform, bosh).
 
