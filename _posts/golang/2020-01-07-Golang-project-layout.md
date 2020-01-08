@@ -72,7 +72,6 @@ private 응용 프로그램과 라이브러리 코드 입니다. 다른 응용 �
 
 Go는 1.13부터 모듈 프록시 기능을 활성화했습니다 (기본적으로 [https://proxy.golang.org](https://proxy.golang.org)를 모듈 프록시 서버로 사용). 모든 요구 사항과 제약 조건에 맞는지 확인하려면 여기를 참조하십시오. 그렇다면 vender 디렉토리가 전혀 필요하지 않습니다.
 
-<br>
 
 ## 서비스 응용 프로그램 디렉터리
 
@@ -80,7 +79,6 @@ Go는 1.13부터 모듈 프록시 기능을 활성화했습니다 (기본적으�
 
 OpenAPI/Swagger 사양, JSON 스키마 파일, 프로토콜 정의 파일 예제는 [/​​api](https://github.com/golang-standards/project-layout/blob/master/api/README.md) 디렉토리를 참조하십시오.
 
-<br>
 
 ## Web Application Directories
 
@@ -88,7 +86,6 @@ OpenAPI/Swagger 사양, JSON 스키마 파일, 프로토콜 정의 파일 예제
 
 웹 응용 프로그램 특정 구성 요소 : static assets, 서버 쪽 템플릿 및 SPA.
 
-<br>
 
 ## 일반 응용 프로그램 디렉터리
 
@@ -128,7 +125,6 @@ IaaS, Paas, 시스템 및 컨테이너 오케스트레이션 배포 구성 및 �
 
 [/test](https://github.com/golang-standards/project-layout/blob/master/test/README.md) 디렉터리를 참조하십시오.
 
-<br>
 
 ## 기타 디렉터리
 
@@ -168,7 +164,6 @@ Github 페이지를 사용하지 않는 경우 프로젝트 웹 사이트 데이
 
 [/website](https://github.com/golang-standards/project-layout/blob/master/website/README.md) 디렉토리를 참조하십시오.
 
-<br>
 
 ## 만들지 말아야할 디렉터리
 
