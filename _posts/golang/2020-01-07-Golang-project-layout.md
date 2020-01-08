@@ -18,9 +18,9 @@ last_modified_at: 2020-01-07T20:00:00
 
 Go 응용 프로그램 프로젝트의 기본 레이아웃입니다. 핵심 Go dev 팀이 정의한 공식 표준이 아닙니다.
 
-# Go 디렉터리
+## Go 디렉터리
 
-## `/cmd`
+### `/cmd`
 
 프로젝트의 메인 응용 프로그램들.
 
@@ -32,7 +32,7 @@ Go 응용 프로그램 프로젝트의 기본 레이아웃입니다. 핵심 Go d
 
 [/cmd](https://github.com/golang-standards/project-layout/blob/master/cmd/README.md) 디렉토리를 참조하십시오.
 
-## `/internal`
+### `/internal`
 
 private 응용 프로그램과 라이브러리 코드 입니다. 다른 응용 프로그램 또는 라이브러리에서 import하는 것을 원하지 않는 코드 입니다. 레이아웃 패턴은 Go 컴파일러 자체에 의해 시행됩니다. 자세한 내용은 Go 1.4 [릴리즈 노트](https://golang.org/doc/go1.4#internalpackages)를 확인하세요. 최상위 internal 디렉터리로 제한되지 않습니다. 프로젝트 트리 중 어떠한 레벨에서 하나 이상의 internal 디렉터리를 가질 수 있습니다.
 
@@ -55,7 +55,7 @@ private 응용 프로그램과 라이브러리 코드 입니다. 다른 응용 �
   {{ notice-text | markdownify }}
 </div>
 
-## `/pkg`
+### `/pkg`
 
 외부 응용 프로그램에서 사용할 수 있는 라이브러리 코드(예. /pkg/mypubliclib). 다른 프로젝트이 이 라이브러리들을 import해서 사용할 것으로 예상하는 패키지 입니다. 참고로 internal 디렉터리에 있는 것은 private 패키지가 Go에 의해서 가져올 수 없도록 하는 더 좋은 방법입니다.  /pkg 디렉터리는 디렉터리 내부의 패키지가 다른 패키지에서 사용하기 위해 안전하다는 것을 명시적으로 알려주는 좋은 방법입니다. 
 [I'll take pkg over internal](https://travisjeffery.com/b/2019/11/i-ll-take-pkg-over-internal/) 블로그 글은 pkg와 internal 디렉터리의 좋은 개요와 언제 사용하는 것이 좋은지에 대해 설명합니다.
@@ -64,7 +64,7 @@ private 응용 프로그램과 라이브러리 코드 입니다. 다른 응용 �
 
 인기있는 Go 저장소가 프로젝트 레이아웃을 사용하는 패턴을 보기를 원한다면 [/pkg](https://github.com/golang-standards/project-layout/blob/master/pkg/README.md) 디렉터리를 보십시오. 이는 일반적인 레이아웃 패턴이지만 Go 커뮤니티의 일부는 권장하지 않기도 합니다.
 
-## `/vendor`
+### `/vendor`
 
 응용 프로그램 종속성 (수동으로 또는 새로운 내장 기능이지만 여전히 실험적인 모듈 기능과 같은 자주 사용하는 종속성 관리 도구로 관리)
 
@@ -74,35 +74,35 @@ Go는 1.13부터 모듈 프록시 기능을 활성화했습니다 (기본적으�
 
 <br>
 
-# 서비스 응용 프로그램 디렉터리
+## 서비스 응용 프로그램 디렉터리
 
-## `/api`
+### `/api`
 
 OpenAPI/Swagger 사양, JSON 스키마 파일, 프로토콜 정의 파일 예제는 [/​​api](https://github.com/golang-standards/project-layout/blob/master/api/README.md) 디렉토리를 참조하십시오.
 
 <br>
 
-# Web Application Directories
+## Web Application Directories
 
-## `/web`
+### `/web`
 
 웹 응용 프로그램 특정 구성 요소 : static assets, 서버 쪽 템플릿 및 SPA.
 
 <br>
 
-# 일반 응용 프로그램 디렉터리
+## 일반 응용 프로그램 디렉터리
 
-## `/configs`
+### `/configs`
 
 설정 파일 템플릿 또는 기본 설정
 
 confd 또는 consul-template 템플릿 파일
 
-## `/init`
+### `/init`
 
 시스템 초기화(systemd, upstart, sysv) 및 프로세스 manager/supervisor(runit, supervisord) 설정
 
-## `/scripts`
+### `/scripts`
 
 다양한 build, install, analysis 등을 수행하는 스크립트.
 
@@ -110,7 +110,7 @@ confd 또는 consul-template 템플릿 파일
 
 예제는 [/scripts](https://github.com/golang-standards/project-layout/blob/master/scripts/README.md) 디렉토리를 참조하십시오
 
-## `/build`
+### `/build`
 
 Packaging and Continuous Integration.
 
@@ -118,11 +118,11 @@ Packaging and Continuous Integration.
 
 CI (travis, circle, drone) 구성 및 스크립트를 /build/ci 디렉토리에 넣습니다. 일부 CI 도구 (예 : Travis CI)는 구성 파일의 위치에 매우 까다 롭습니다. 구성 파일을 /build\ci 디렉토리에 넣어 CI 도구가 예상하는 위치에 연결하십시오 (가능한 경우).
 
-## `/deployments`
+### `/deployments`
 
 IaaS, Paas, 시스템 및 컨테이너 오케스트레이션 배포 구성 및 템플릿(docker-compose, kubernetes / helm, mesos, terraform, bosh).
 
-## `/test`
+### `/test`
 
 추가적인 외부 테스트 앱 및 테스트 데이터. 원하는대로 /test 디렉터리를 자유롭게 구성하십시오. 더큰 프로젝트의 경우 데이터를 서브 디렉터리로 만드는 것이 좋습니다. 예를 들어 Go가 그 디렉터리에 있는 것을 무시할 필요가 있는 경우 /test/data 또는 /test/testdata 일 수 있습니다. Go는 "." 또는 "_"로 시작하는 디렉터리나 파일을 무시하므로 테스트 데이터 디렉터리의 이름을 지정하는 방법에 유연성이 높아집니다.
 
@@ -130,39 +130,39 @@ IaaS, Paas, 시스템 및 컨테이너 오케스트레이션 배포 구성 및 �
 
 <br>
 
-# 기타 디렉터리
+## 기타 디렉터리
 
-## `/docs`
+### `/docs`
 
 디자인 및 사용자 문서 (godoc 생성 문서 외에도)
 
 [/docs](https://github.com/golang-standards/project-layout/blob/master/docs/README.md) 디렉토리를 참조하십시오.
 
-## `/tools`
+### `/tools`
 
 이 프로젝트를 지원하는 도구.이 도구는 /pkg 및 /internal 디렉토리에서 코드를 가져올 수 있습니다.
 
 [/tools](https://github.com/golang-standards/project-layout/blob/master/tools/README.md) 디렉토리를 참조하십시오.
 
-## `/examples`
+### `/examples`
 
 응용 프로그램 또는 라이브러리 예제
 
 [/examples](https://github.com/golang-standards/project-layout/blob/master/examples/README.md) 디렉토리를 참조하십시오.
 
-## `/third_party`
+### `/third_party`
 
 External helper tools, forked code and other 3rd party utilities (e.g., Swagger UI).
 
-## `/githooks`
+### `/githooks`
 
 Git hooks.
 
-## `/assets`
+### `/assets`
 
 저장소와 함께 사용할 기타 assets (이미지, 로고 등)
 
-## `/website`
+### `/website`
 
 Github 페이지를 사용하지 않는 경우 프로젝트 웹 사이트 데이터를 저장하는 곳입니다.
 
@@ -170,9 +170,9 @@ Github 페이지를 사용하지 않는 경우 프로젝트 웹 사이트 데이
 
 <br>
 
-# 만들지 말아야할 디렉터리
+## 만들지 말아야할 디렉터리
 
-## `/src`
+### `/src`
 
 일부 Go 프로젝트는 src 디렉터리를 사용하지만 일반적으로 Java로 개발을 했던 사람이 많이 사용합니다. Go 코드 또는 프로젝트가 Java 처럼 보이기를 원하지 않는 다면 사용하지 마세요.
 
