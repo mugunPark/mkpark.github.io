@@ -110,7 +110,7 @@ last_modified_at: 2020-04-12T14:14:00
     #{${config.adminWelcomeKey}(${session.user.name})}
   ```
 
-  ### 1.4 Link (URL) expressions
+### 1.4 Link (URL) expressions
 
   링크 표현식은 URL을 작성하고 유용한 컨텍스트 및 세션 정보를 추가합니다 (일반적으로 URL 재 작성이라고하는 프로세스).
 
@@ -169,7 +169,7 @@ last_modified_at: 2020-04-12T14:14:00
     <a th:href="@{http://www.mycompany.com/main}">...</a>
   ```
   
-  ### 1.5 Fragment expressions
+### 1.5 Fragment expressions
 
   Fragment 표현식은 마크 업 조각을 표현하고 템플릿 주위로 쉽게 이동할 수있는 방법입니다. 이러한 표현 덕분에 조각을 복제하고 다른 템플릿에 인수로 전달할 수 있습니다.
 
@@ -187,7 +187,7 @@ last_modified_at: 2020-04-12T14:14:00
     </div>
     ```
 
-  ### 1.6 Literals and operations
+### 1.6 Literals and operations
 
   다양한 유형의 리터럴과 연산을 사용할 수 있습니다.
 
@@ -219,7 +219,7 @@ last_modified_at: 2020-04-12T14:14:00
     * If-then-else: `(if) ? (then) : (else)`
     * Default: `(value) ?: (defaultvalue)`
 
-  ### 1.6 Expression preprocessing
+### 1.7 Expression preprocessing
 
   표현식에 대해 알아야 할 마지막 사항은 __ 사이에 지정된 표현식 사전 처리라는 것이 있는데 이는 다음과 같습니다.
 
