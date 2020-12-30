@@ -28,7 +28,7 @@ last_modified_at: 2020-12-29T13:00:00
 
 * **multi_match query** - match 쿼리를 다중 필드를 대상으로 할 수 있습니다.
 
-* **query_string query** - Lucene 쿼리 문자열 구문을 지원하여 단일 쿼리 문자열 내에서 AND | OR | NOT 조건 및 다중 필드 검색을 지정할 수 있습니다. 전문가 전용입니다.
+* **query_string query** - Lucene 쿼리 문자열 구문을 지원하여 단일 쿼리 문자열 내에서 AND , OR , NOT 조건 및 다중 필드 검색을 지정할 수 있습니다. 전문가 전용입니다.
 
 # Boolean query
 
